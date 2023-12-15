@@ -20,6 +20,8 @@ class MyAppState extends State<MyApp> {
   String _range = '';
   String _rangeCount = '';
 
+  final DateRangePickerController _controller = DateRangePickerController();
+
   /// The method for [DateRangePickerSelectionChanged] callback, which will be
   /// called whenever a selection changed on the date picker widget.
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
@@ -82,8 +84,14 @@ class MyAppState extends State<MyApp> {
                   right: 0,
                   bottom: 0,
                   child: SfDateRangePicker(
+                    controller: _controller,
                     onSelectionChanged: _onSelectionChanged,
-                    selectionMode: DateRangePickerSelectionMode.range,
+                    selectionMode: DateRangePickerSelectionMode.single,
+                    onTodayButtonTap: (controller) {
+                      controller.selectedDate = DateTime.now();
+                    },
+                    showActionButtons: true,
+                    showTodayButton: true,
                     initialSelectedRange: PickerDateRange(
                         DateTime.now().subtract(const Duration(days: 4)),
                         DateTime.now().add(const Duration(days: 3))),

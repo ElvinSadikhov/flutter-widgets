@@ -245,7 +245,9 @@ class SfDateRangePicker extends StatelessWidget {
       this.showTodayButton = false,
       this.selectableDayPredicate,
       this.extendableRangeSelectionDirection =
-          ExtendableRangeSelectionDirection.both})
+          ExtendableRangeSelectionDirection.both,
+      this.onTodayButtonTap,    
+      })
       : assert(headerHeight >= -1),
         assert(minDate == null ||
             maxDate == null ||
@@ -2609,6 +2611,8 @@ class SfDateRangePicker extends StatelessWidget {
   /// ```
   final Function(Object?)? onSubmit;
 
+  final void Function(DateRangePickerController controller)? onTodayButtonTap;
+
   @override
   Widget build(BuildContext context) {
     return _SfDateRangePicker(
@@ -2658,6 +2662,7 @@ class SfDateRangePicker extends StatelessWidget {
       showTodayButton: showTodayButton,
       selectableDayPredicate: selectableDayPredicate,
       extendableRangeSelectionDirection: extendableRangeSelectionDirection,
+      onTodayButtonTap: onTodayButtonTap,
     );
   }
 
@@ -2898,6 +2903,7 @@ class SfHijriDateRangePicker extends StatelessWidget {
     this.selectableDayPredicate,
     this.extendableRangeSelectionDirection =
         ExtendableRangeSelectionDirection.both,
+    this.onTodayButtonTap,
   })  : initialSelectedDate =
             controller != null && controller.selectedDate != null
                 ? controller.selectedDate
@@ -5249,6 +5255,8 @@ class SfHijriDateRangePicker extends StatelessWidget {
   /// ```
   final Function(Object?)? onSubmit;
 
+  final void Function(DateRangePickerController controller)? onTodayButtonTap;
+
   @override
   Widget build(BuildContext context) {
     return _SfDateRangePicker(
@@ -5299,6 +5307,7 @@ class SfHijriDateRangePicker extends StatelessWidget {
       showTodayButton: showTodayButton,
       selectableDayPredicate: selectableDayPredicate,
       extendableRangeSelectionDirection: extendableRangeSelectionDirection,
+      onTodayButtonTap: onTodayButtonTap,
     );
   }
 
@@ -5436,7 +5445,9 @@ class _SfDateRangePicker extends StatefulWidget {
       this.showTodayButton = false,
       this.selectableDayPredicate,
       this.extendableRangeSelectionDirection =
-          ExtendableRangeSelectionDirection.both})
+          ExtendableRangeSelectionDirection.both,
+      this.onTodayButtonTap,
+      })
       : super(key: key);
 
   final DateRangePickerView view;
@@ -5530,6 +5541,8 @@ class _SfDateRangePicker extends StatefulWidget {
   final dynamic selectableDayPredicate;
 
   final ExtendableRangeSelectionDirection extendableRangeSelectionDirection;
+
+  final void Function(DateRangePickerController controller)? onTodayButtonTap;
 
   @override
   _SfDateRangePickerState createState() => _SfDateRangePickerState();
@@ -7106,6 +7119,7 @@ class _SfDateRangePickerState extends State<_SfDateRangePicker>
 
                     _controller.displayDate =
                         DateRangePickerHelper.getToday(widget.isHijri);
+                    widget.onTodayButtonTap?.call(_controller);
                   },
                 ),
               ],
