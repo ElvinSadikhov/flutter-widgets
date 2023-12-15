@@ -1,9 +1,0 @@
-version: "Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)"
-options: "0eda94d464fba8974375a441faffcaebda251ddbb27be516c48adc5456478163"
-build_start_time: [1702654280, 407199859]
-build_end_time: [1702654286, 618077039]
-inputs:
-  ? "/Users/elvinsadikhov/Desktop/flutter-widgets/packages/syncfusion_flutter_datepicker/example/macos/Flutter/GeneratedPluginRegistrant.swift"
-  : [1702654269, 219571590]
-  "/Users/elvinsadikhov/Desktop/flutter-widgets/packages/syncfusion_flutter_datepicker/example/macos/Runner/AppDelegate.swift": [1702653807, 806021928]
-  "/Users/elvinsadikhov/Desktop/flutter-widgets/packages/syncfusion_flutter_datepicker/example/macos/Runner/MainFlutterWindow.swift": [1702653807, 807880878]

@@ -580,7 +580,7 @@ class _YearViewState extends State<YearView> {
 }
 
 class _SingleSelectionRenderWidget extends MultiChildRenderObjectWidget {
-  const _SingleSelectionRenderWidget(
+  _SingleSelectionRenderWidget(
       this.visibleDates,
       this.cellStyle,
       this.minDate,
@@ -774,7 +774,7 @@ class _SingleSelectionRenderWidget extends MultiChildRenderObjectWidget {
 }
 
 class _MultiSelectionRenderWidget extends MultiChildRenderObjectWidget {
-  const _MultiSelectionRenderWidget(
+  _MultiSelectionRenderWidget(
       this.visibleDates,
       this.cellStyle,
       this.minDate,
@@ -968,7 +968,7 @@ class _MultiSelectionRenderWidget extends MultiChildRenderObjectWidget {
 }
 
 class _RangeSelectionRenderWidget extends MultiChildRenderObjectWidget {
-  const _RangeSelectionRenderWidget(
+  _RangeSelectionRenderWidget(
       this.visibleDates,
       this.cellStyle,
       this.minDate,
@@ -1163,7 +1163,7 @@ class _RangeSelectionRenderWidget extends MultiChildRenderObjectWidget {
 
 class _ExtendableRangeSelectionRenderWidget
     extends MultiChildRenderObjectWidget {
-  const _ExtendableRangeSelectionRenderWidget(
+  _ExtendableRangeSelectionRenderWidget(
       this.visibleDates,
       this.cellStyle,
       this.minDate,
@@ -1363,7 +1363,7 @@ class _ExtendableRangeSelectionRenderWidget
 }
 
 class _MultiRangeSelectionRenderWidget extends MultiChildRenderObjectWidget {
-  const _MultiRangeSelectionRenderWidget(
+  _MultiRangeSelectionRenderWidget(
       this.visibleDates,
       this.cellStyle,
       this.minDate,
@@ -2597,22 +2597,25 @@ abstract class _IYearViewRenderObject extends RenderBox
   TextStyle _updateCellTextStyle(int j, bool isCurrentDate, bool isSelected,
       bool isEnableDate, bool isActiveDate, bool isDisabledDate) {
     if (!isEnableDate || isDisabledDate) {
-      return datePickerTheme.disabledCellTextStyle!;
+      return cellStyle.disabledDatesTextStyle as TextStyle? ??
+          datePickerTheme.disabledCellTextStyle!;
     }
 
     if (isSelected) {
-      return datePickerTheme.selectionTextStyle!;
+      return selectionTextStyle ?? datePickerTheme.selectionTextStyle!;
     }
 
     if (isCurrentDate) {
-      return datePickerTheme.todayCellTextStyle!;
+      return cellStyle.todayTextStyle as TextStyle? ??
+          datePickerTheme.todayCellTextStyle!;
     }
 
     if (!isActiveDate && !_isHijri) {
-      return datePickerTheme.leadingCellTextStyle!;
+      return cellStyle.leadingDatesTextStyle as TextStyle? ??
+          datePickerTheme.leadingCellTextStyle!;
     }
 
-    return datePickerTheme.cellTextStyle!;
+    return cellStyle.textStyle as TextStyle? ?? datePickerTheme.cellTextStyle!;
   }
 
   Decoration? _updateCellDecoration(int j, bool isCurrentDate,
@@ -3082,13 +3085,13 @@ class _RangeSelectionRenderObject extends _IYearViewRenderObject {
     } else if (isBetweenRange) {
       yearText = TextSpan(
         text: yearText.text,
-        style: datePickerTheme.rangeSelectionTextStyle,
+        style: rangeTextStyle ?? datePickerTheme.rangeSelectionTextStyle,
       );
 
       _todayHighlightPaint.color =
           rangeSelectionColor ?? datePickerTheme.rangeSelectionColor!;
       _textPainter.text = yearText;
-      _textPainter.layout(maxWidth: cellWidth);
+      _textPainter.layout(minWidth: cellWidth, maxWidth: cellWidth);
     } else if (isEndRange) {
       _todayHighlightPaint.color =
           endRangeSelectionColor ?? datePickerTheme.endRangeSelectionColor!;
@@ -3352,13 +3355,13 @@ class _ExtendableRangeSelectionRenderObject extends _IYearViewRenderObject {
     } else if (isBetweenRange) {
       yearText = TextSpan(
         text: yearText.text,
-        style: datePickerTheme.rangeSelectionTextStyle,
+        style: rangeTextStyle ?? datePickerTheme.rangeSelectionTextStyle,
       );
 
       _todayHighlightPaint.color =
           rangeSelectionColor ?? datePickerTheme.rangeSelectionColor!;
       _textPainter.text = yearText;
-      _textPainter.layout(maxWidth: cellWidth);
+      _textPainter.layout(minWidth: cellWidth, maxWidth: cellWidth);
     } else if (isEndRange) {
       _todayHighlightPaint.color =
           endRangeSelectionColor ?? datePickerTheme.endRangeSelectionColor!;
@@ -3603,13 +3606,13 @@ class _MultiRangeSelectionRenderObject extends _IYearViewRenderObject {
     } else if (isBetweenRange) {
       yearText = TextSpan(
         text: yearText.text,
-        style: datePickerTheme.rangeSelectionTextStyle,
+        style: rangeTextStyle ?? datePickerTheme.rangeSelectionTextStyle,
       );
 
       _todayHighlightPaint.color =
           rangeSelectionColor ?? datePickerTheme.rangeSelectionColor!;
       _textPainter.text = yearText;
-      _textPainter.layout(maxWidth: cellWidth);
+      _textPainter.layout(minWidth: cellWidth, maxWidth: cellWidth);
     } else if (isEndRange) {
       _todayHighlightPaint.color =
           endRangeSelectionColor ?? datePickerTheme.endRangeSelectionColor!;
@@ -3993,7 +3996,7 @@ void _drawYearCells(
       );
 
       yearView._textPainter.text = yearText;
-      yearView._textPainter.layout(maxWidth: cellWidth);
+      yearView._textPainter.layout(minWidth: cellWidth, maxWidth: cellWidth);
 
       final double highlightPadding =
           yearView.selectionRadius == -1 ? 10 : yearView.selectionRadius;
