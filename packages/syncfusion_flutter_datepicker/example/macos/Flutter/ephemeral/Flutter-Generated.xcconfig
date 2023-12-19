@@ -1,11 +1,13 @@
 // This is a generated file; do not edit or check into version control.
 FLUTTER_ROOT=/Users/elvinsadikhov/DevelopmentTools/flutter_3.10.0
-FLUTTER_APPLICATION_PATH=/Users/elvinsadikhov/Desktop/syncfusion_flutter_datepicker-20.4.54/example
+FLUTTER_APPLICATION_PATH=/Users/elvinsadikhov/FlutterDevelopment/Forks/flutter-widgets/packages/syncfusion_flutter_datepicker/example
 COCOAPODS_PARALLEL_CODE_SIGN=true
+FLUTTER_TARGET=/Users/elvinsadikhov/FlutterDevelopment/Forks/flutter-widgets/packages/syncfusion_flutter_datepicker/example/lib/main.dart
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.0
 FLUTTER_BUILD_NUMBER=1
+DART_DEFINES=RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==,RkxVVFRFUl9XRUJfQ0FOVkFTS0lUX1VSTD1odHRwczovL3d3dy5nc3RhdGljLmNvbS9mbHV0dGVyLWNhbnZhc2tpdC9kNDRiNWE5NGM5NzZmYmI2NTgxNTM3NGY2MWFiNTM5MmEyMjBiMDg0Lw==
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=true
 TREE_SHAKE_ICONS=false
-PACKAGE_CONFIG=.dart_tool/package_config.json
+PACKAGE_CONFIG=/Users/elvinsadikhov/FlutterDevelopment/Forks/flutter-widgets/packages/syncfusion_flutter_datepicker/example/.dart_tool/package_config.json

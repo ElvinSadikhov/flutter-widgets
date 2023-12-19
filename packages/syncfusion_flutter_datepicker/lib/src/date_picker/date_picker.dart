@@ -247,6 +247,7 @@ class SfDateRangePicker extends StatelessWidget {
       this.extendableRangeSelectionDirection =
           ExtendableRangeSelectionDirection.both,
       this.onTodayButtonTap,    
+      this.bottomCenterAdditionalWidget,    
       })
       : assert(headerHeight >= -1),
         assert(minDate == null || maxDate == null || minDate.isBefore(maxDate)),
@@ -2611,6 +2612,8 @@ class SfDateRangePicker extends StatelessWidget {
 
   final void Function(DateRangePickerController controller)? onTodayButtonTap;
 
+  final Widget? bottomCenterAdditionalWidget;
+
   @override
   Widget build(BuildContext context) {
     return _SfDateRangePicker(
@@ -2661,6 +2664,7 @@ class SfDateRangePicker extends StatelessWidget {
       selectableDayPredicate: selectableDayPredicate,
       extendableRangeSelectionDirection: extendableRangeSelectionDirection,
       onTodayButtonTap: onTodayButtonTap,
+      bottomCenterAdditionalWidget: bottomCenterAdditionalWidget,
     );
   }
 
@@ -2902,6 +2906,7 @@ class SfHijriDateRangePicker extends StatelessWidget {
     this.extendableRangeSelectionDirection =
         ExtendableRangeSelectionDirection.both,
     this.onTodayButtonTap,
+    this.bottomCenterAdditionalWidget,
   })  : initialSelectedDate =
             controller != null && controller.selectedDate != null
                 ? controller.selectedDate
@@ -5255,6 +5260,8 @@ class SfHijriDateRangePicker extends StatelessWidget {
 
   final void Function(DateRangePickerController controller)? onTodayButtonTap;
 
+  final Widget? bottomCenterAdditionalWidget;
+
   @override
   Widget build(BuildContext context) {
     return _SfDateRangePicker(
@@ -5306,6 +5313,7 @@ class SfHijriDateRangePicker extends StatelessWidget {
       selectableDayPredicate: selectableDayPredicate,
       extendableRangeSelectionDirection: extendableRangeSelectionDirection,
       onTodayButtonTap: onTodayButtonTap,
+      bottomCenterAdditionalWidget: bottomCenterAdditionalWidget,
     );
   }
 
@@ -5445,6 +5453,7 @@ class _SfDateRangePicker extends StatefulWidget {
       this.extendableRangeSelectionDirection =
           ExtendableRangeSelectionDirection.both,
       this.onTodayButtonTap,
+      this.bottomCenterAdditionalWidget,
       })
       : super(key: key);
 
@@ -5541,6 +5550,8 @@ class _SfDateRangePicker extends StatefulWidget {
   final ExtendableRangeSelectionDirection extendableRangeSelectionDirection;
 
   final void Function(DateRangePickerController controller)? onTodayButtonTap;
+
+  final Widget? bottomCenterAdditionalWidget;
 
   @override
   _SfDateRangePickerState createState() => _SfDateRangePickerState();
@@ -7055,7 +7066,14 @@ class _SfDateRangePickerState extends State<_SfDateRangePicker>
       height: actionButtonsHeight,
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[todayButton, actionButtons]),
+          children: <Widget>[
+            todayButton,  
+            if (widget.bottomCenterAdditionalWidget != null) ...[
+              const Spacer(),
+              widget.bottomCenterAdditionalWidget!,
+              const Spacer(),
+            ],
+            actionButtons]),
     );
   }
 
