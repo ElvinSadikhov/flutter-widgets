@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_bool_literals_in_conditional_expressions
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -248,6 +250,7 @@ class SfDateRangePicker extends StatelessWidget {
           ExtendableRangeSelectionDirection.both,
       this.onTodayButtonTap,    
       this.bottomCenterAdditionalWidget,    
+      this.bottomCenterAdditionalWidgetHeight,    
       })
       : assert(headerHeight >= -1),
         assert(minDate == null || maxDate == null || minDate.isBefore(maxDate)),
@@ -2614,6 +2617,8 @@ class SfDateRangePicker extends StatelessWidget {
 
   final Widget? bottomCenterAdditionalWidget;
 
+  final double? bottomCenterAdditionalWidgetHeight;
+
   @override
   Widget build(BuildContext context) {
     return _SfDateRangePicker(
@@ -2665,6 +2670,7 @@ class SfDateRangePicker extends StatelessWidget {
       extendableRangeSelectionDirection: extendableRangeSelectionDirection,
       onTodayButtonTap: onTodayButtonTap,
       bottomCenterAdditionalWidget: bottomCenterAdditionalWidget,
+      bottomCenterAdditionalWidgetHeight: bottomCenterAdditionalWidgetHeight,
     );
   }
 
@@ -2907,6 +2913,7 @@ class SfHijriDateRangePicker extends StatelessWidget {
         ExtendableRangeSelectionDirection.both,
     this.onTodayButtonTap,
     this.bottomCenterAdditionalWidget,
+    this.bottomCenterAdditionalWidgetHeight,
   })  : initialSelectedDate =
             controller != null && controller.selectedDate != null
                 ? controller.selectedDate
@@ -5262,6 +5269,8 @@ class SfHijriDateRangePicker extends StatelessWidget {
 
   final Widget? bottomCenterAdditionalWidget;
 
+  final double? bottomCenterAdditionalWidgetHeight;
+
   @override
   Widget build(BuildContext context) {
     return _SfDateRangePicker(
@@ -5314,6 +5323,7 @@ class SfHijriDateRangePicker extends StatelessWidget {
       extendableRangeSelectionDirection: extendableRangeSelectionDirection,
       onTodayButtonTap: onTodayButtonTap,
       bottomCenterAdditionalWidget: bottomCenterAdditionalWidget,
+      bottomCenterAdditionalWidgetHeight: bottomCenterAdditionalWidgetHeight,
     );
   }
 
@@ -5403,7 +5413,7 @@ class SfHijriDateRangePicker extends StatelessWidget {
 
 @immutable
 class _SfDateRangePicker extends StatefulWidget {
-  const _SfDateRangePicker(
+  _SfDateRangePicker(
       {Key? key,
       required this.view,
       required this.selectionMode,
@@ -5454,8 +5464,10 @@ class _SfDateRangePicker extends StatefulWidget {
           ExtendableRangeSelectionDirection.both,
       this.onTodayButtonTap,
       this.bottomCenterAdditionalWidget,
-      })
-      : super(key: key);
+      this.bottomCenterAdditionalWidgetHeight,
+      }) : 
+        assert(bottomCenterAdditionalWidget != null ? bottomCenterAdditionalWidgetHeight != null : true),
+        super(key: key);
 
   final DateRangePickerView view;
 
@@ -5552,6 +5564,8 @@ class _SfDateRangePicker extends StatefulWidget {
   final void Function(DateRangePickerController controller)? onTodayButtonTap;
 
   final Widget? bottomCenterAdditionalWidget;
+
+  final double? bottomCenterAdditionalWidgetHeight;
 
   @override
   _SfDateRangePickerState createState() => _SfDateRangePickerState();
@@ -5863,7 +5877,7 @@ class _SfDateRangePickerState extends State<_SfDateRangePicker>
       final double actionButtonsHeight =
           (widget.showActionButtons || widget.showTodayButton)
               ? _minHeight! * 0.1 < 50
-                  ? 50
+                  ? 50 + 2 + (widget.bottomCenterAdditionalWidgetHeight ?? 0) // 2 becase of column
                   : _minHeight! * 0.1
               : 0;
       _handleScrollViewSizeChanged(_minHeight!, _minWidth!, previousHeight,
@@ -5980,7 +5994,6 @@ class _SfDateRangePickerState extends State<_SfDateRangePicker>
             TextStyle(
                 color: colorScheme.primary, fontSize: 13, fontFamily: 'Roboto'),
         todayCellTextStyle: pickerTheme.todayCellTextStyle ??
-            // ignore: lines_longer_than_80_chars
             TextStyle(
                 color: colorScheme.primary, fontSize: 13, fontFamily: 'Roboto'),
         selectionColor: pickerTheme.selectionColor ?? colorScheme.primary,
@@ -7013,13 +7026,6 @@ class _SfDateRangePickerState extends State<_SfDateRangePicker>
               spacing: 8,
               children: <Widget>[
                 TextButton(
-                  onPressed: _handleCancel,
-                  child: Text(
-                    widget.cancelText,
-                    style: TextStyle(color: textColor),
-                  ),
-                ),
-                TextButton(
                   onPressed: _handleOk,
                   child: Text(
                     widget.confirmText,
@@ -7030,7 +7036,7 @@ class _SfDateRangePickerState extends State<_SfDateRangePicker>
             ),
           )
         : const SizedBox(width: 0, height: 0);
-    final Widget todayButton = widget.showTodayButton
+    final Widget leftActionButtons = widget.showTodayButton
         ? Container(
             alignment: AlignmentDirectional.centerStart,
             constraints: const BoxConstraints(minHeight: 52.0),
@@ -7055,6 +7061,14 @@ class _SfDateRangePickerState extends State<_SfDateRangePicker>
                     widget.onTodayButtonTap?.call(_controller);
                   },
                 ),
+                if (widget.showTodayButton)
+                  TextButton(
+                    onPressed: _handleCancel,
+                    child: Text(
+                      widget.cancelText,
+                      style: TextStyle(color: textColor),
+                    ),
+                  ),
               ],
             ),
           )
@@ -7064,16 +7078,31 @@ class _SfDateRangePickerState extends State<_SfDateRangePicker>
       left: 0,
       right: 0,
       height: actionButtonsHeight,
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            todayButton,  
-            if (widget.bottomCenterAdditionalWidget != null) ...[
-              const Spacer(),
-              widget.bottomCenterAdditionalWidget!,
-              const Spacer(),
-            ],
-            actionButtons]),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if (widget.bottomCenterAdditionalWidget != null)
+            SizedBox(
+              height: widget.bottomCenterAdditionalWidgetHeight,
+              child: widget.bottomCenterAdditionalWidget,
+            ), 
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              leftActionButtons,   
+              actionButtons,
+            ]
+          ),
+        ],
+      ),
+      // child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //       children: <Widget>[
+      //         leftActionButtons,  
+      //         const Spacer(),
+      //         actionButtons,
+      //       ]
+      //     ),
     );
   }
 

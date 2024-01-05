@@ -92,7 +92,8 @@ class MyAppState extends State<MyApp> {
                     },
                     showActionButtons: true,
                     showTodayButton: true,
-                    bottomCenterAdditionalWidget: Text("some bottom center widget"),
+                    bottomCenterAdditionalWidget: Text("some widget"),
+                    bottomCenterAdditionalWidgetHeight: 20,
                     initialSelectedRange: PickerDateRange(
                         DateTime.now().subtract(const Duration(days: 4)),
                         DateTime.now().add(const Duration(days: 3))),
