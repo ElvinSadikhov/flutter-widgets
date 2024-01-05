@@ -59,31 +59,9 @@ class MyAppState extends State<MyApp> {
             appBar: AppBar(
               title: const Text('DatePicker demo'),
             ),
-            body: Stack(
-              children: <Widget>[
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  height: 80,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text('Selected date: $_selectedDate'),
-                      Text('Selected date count: $_dateCount'),
-                      Text('Selected range: $_range'),
-                      Text('Selected ranges count: $_rangeCount')
-                    ],
-                  ),
-                ),
-                Positioned(
-                  left: 0,
-                  top: 80,
-                  right: 0,
-                  bottom: 0,
-                  child: SfDateRangePicker(
+            body: SizedBox(
+              height: 615,
+              child: SfDateRangePicker(
                     controller: _controller,
                     onSelectionChanged: _onSelectionChanged,
                     selectionMode: DateRangePickerSelectionMode.single,
@@ -98,8 +76,48 @@ class MyAppState extends State<MyApp> {
                         DateTime.now().subtract(const Duration(days: 4)),
                         DateTime.now().add(const Duration(days: 3))),
                   ),
-                )
-              ],
             )));
+            // Stack(
+            //   children: <Widget>[
+            //     Positioned(
+            //       left: 0,
+            //       right: 0,
+            //       top: 0,
+            //       height: 80,
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //         mainAxisSize: MainAxisSize.min,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: <Widget>[
+            //           Text('Selected date: $_selectedDate'),
+            //           Text('Selected date count: $_dateCount'),
+            //           Text('Selected range: $_range'),
+            //           Text('Selected ranges count: $_rangeCount')
+            //         ],
+            //       ),
+            //     ),
+            //     Positioned(
+            //       left: 0,
+            //       top: 80,
+            //       right: 0,
+            //       bottom: 0,
+            //       child: SfDateRangePicker(
+            //         controller: _controller,
+            //         onSelectionChanged: _onSelectionChanged,
+            //         selectionMode: DateRangePickerSelectionMode.single,
+            //         onTodayButtonTap: (controller) {
+            //           controller.selectedDate = DateTime.now();
+            //         },
+            //         showActionButtons: true,
+            //         showTodayButton: true,
+            //         bottomCenterAdditionalWidget: Text("some widget"),
+            //         bottomCenterAdditionalWidgetHeight: 20,
+            //         initialSelectedRange: PickerDateRange(
+            //             DateTime.now().subtract(const Duration(days: 4)),
+            //             DateTime.now().add(const Duration(days: 3))),
+            //       ),
+            //     )
+            //   ],
+            // )));
   }
 }

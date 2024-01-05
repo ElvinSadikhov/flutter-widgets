@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_bool_literals_in_conditional_expressions
+// ignore_for_file: avoid_bool_literals_in_conditional_expressions, lines_longer_than_80_chars
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -7074,10 +7074,11 @@ class _SfDateRangePickerState extends State<_SfDateRangePicker>
           )
         : const SizedBox(width: 0, height: 0);
     return Positioned(
-      top: top,
+      top: top - (widget.bottomCenterAdditionalWidget != null ? widget.bottomCenterAdditionalWidgetHeight ?? 0 : 0),
+      // top: top,
       left: 0,
       right: 0,
-      height: actionButtonsHeight,
+      height: actionButtonsHeight + (widget.bottomCenterAdditionalWidget != null ? widget.bottomCenterAdditionalWidgetHeight ?? 0 : 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
