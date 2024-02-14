@@ -1777,49 +1777,74 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
   /// Loads a PDF document and gets the page count from Plugin
   Future<void> _loadPdfDocument(bool isPdfChanged, bool isDocumentSaved) async {
     try {
+      debugPrint("here1");
       if (!_isEncrypted && !isDocumentSaved) {
+        debugPrint("here2");
         _getPdfFileCancellableOperation =
             CancelableOperation<Uint8List>.fromFuture(
           widget._provider.getPdfBytes(context),
         );
+        debugPrint("here3");
       }
       _pdfBytes = _isEncrypted
           ? _decryptedBytes
           : isDocumentSaved
               ? _pdfBytes
               : (await _getPdfFileCancellableOperation?.value)!;
+      debugPrint("here4");
       if (isPdfChanged) {
+      debugPrint("here5");
         _reset();
+      debugPrint("here6");
         _plugin = PdfViewerPlugin();
+      debugPrint("here7");
         _checkMount();
+      debugPrint("here8");
       }
       _pdfDocumentLoadCancellableOperation =
           CancelableOperation<PdfDocument?>.fromFuture(_getPdfFile(_pdfBytes));
+      debugPrint("here9");
       _document = await _pdfDocumentLoadCancellableOperation?.value;
+      debugPrint("here10");
       if (_document != null) {
+      debugPrint("here11");
         _retrieveFormFieldsDetails();
+      debugPrint("here12");
         _retrieveAnnotations();
+      debugPrint("here13");
         _pdfTextExtractor = PdfTextExtractor(_document!);
+      debugPrint("here14");
         if (!kIsWeb) {
           _performTextExtraction();
         }
       }
       final int pageCount = await _plugin
           .initializePdfRenderer(_renderDigitalSignatures() ?? _pdfBytes);
+      debugPrint("here15");
       _pdfViewerController._pageCount = pageCount;
+      debugPrint("here16");
       if (pageCount > 0) {
+      debugPrint("here17");
         _pdfViewerController._pageNumber = 1;
+      debugPrint("here18");
       }
+      debugPrint("here19");
       _pdfViewerController.zoomLevel = widget.initialZoomLevel;
+      debugPrint("here20");
       _setInitialScrollOffset();
+      debugPrint("here21");
       _getHeightCancellableOperation =
           CancelableOperation<List<dynamic>?>.fromFuture(
               _plugin.getPagesHeight());
+      debugPrint("here22");
       _originalHeight = await _getHeightCancellableOperation?.value;
+      debugPrint("here23");
       _getWidthCancellableOperation =
           CancelableOperation<List<dynamic>?>.fromFuture(
               _plugin.getPagesWidth());
+      debugPrint("here24");
       _originalWidth = await _getWidthCancellableOperation?.value;
+      debugPrint("here25");
     } catch (e) {
       _pdfViewerController._reset();
       _hasError = true;
