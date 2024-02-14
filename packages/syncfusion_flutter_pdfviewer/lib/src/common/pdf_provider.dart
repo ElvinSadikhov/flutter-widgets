@@ -49,9 +49,15 @@ class NetworkPdf extends PdfProvider {
   Future<Uint8List> getPdfBytes(BuildContext context) async {
     if (_documentBytes == null) {
       try {
-        _documentBytes =
-            await http.readBytes(Uri.parse(_url), headers: _headers);
+        debugPrint("start fetching");
+        // final File file = await File.fromUri(Uri.parse(_url));
+        // debugPrint("got the file -> ${file.path}");
+        // final Uint8List bytes = await file.readAsBytes();
+        // _documentBytes = bytes;
+        _documentBytes = await http.readBytes(Uri.parse(_url), headers: _headers);
+        debugPrint("length of ${_documentBytes?.length}");
       } on Exception catch (e) {
+        debugPrint("exception -> ${e.toString()}");
         throw e.toString();
       }
     }
